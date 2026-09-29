@@ -1,14 +1,3 @@
-<div align="center">
-  <img src="https://raw.githubusercontent.com/Mirko-Lauc/LoyaltyCore/main/assets/caja.png" alt="POS Terminal" width="30%">
-  <img src="https://raw.githubusercontent.com/Mirko-Lauc/LoyaltyCore/main/assets/dashboard.png" alt="Manager Dashboard" width="30%">
-  <img src="https://raw.githubusercontent.com/Mirko-Lauc/LoyaltyCore/main/assets/cliente.png" alt="VIP Client Portal" width="30%">
-  <br><br>
-  <a href="#">
-    <img src="https://img.shields.io/badge/Click%20to%20Watch%20Demo%20Video-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="Watch Demo">
-  </a>
-</div>
-
----
 # ⚡ LoyaltyCore - B2B2C Multi-Tenant Loyalty Platform
 
 ## 🇬🇧 English
@@ -49,7 +38,7 @@ Creada para ofrecer gestión aislada por comercio (Multi-Tenant), cuenta con acu
 - **Seguridad Antifraude:** Autenticación por PIN de 4 dígitos para cajeros con registro obligatorio de transacciones.
 - **Tarjeta VIP del Cliente (PWA):** Portal instalable con login, generación de código QR personal y seguimiento de saldo en vivo.
 - **Panel Gerencial:** Seguimiento inmutable de operaciones por empleado para prevenir fraudes internos y gestión dinámica de premios.
-- **Rescate CRM Automático:** Detecta clientes inactivos (>14 days) y dispara campañas de fidelización automáticas por correo.
+- **Rescate CRM Automático:** Detecta clientes inactivos (>14 días) y dispara campañas de fidelización automáticas por correo.
 - **Ejecución con Docker:** Completamente containerizado con Docker Compose para un despliegue instantáneo en cualquier entorno.
 
 ### Tecnologías Utilizadas
