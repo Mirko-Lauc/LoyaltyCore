@@ -1,17 +1,8 @@
-# ⚡ LoyaltyCore - B2B2C Multi-Tenant Loyalty Platform
+# LoyaltyCore - B2B2C Multi-Tenant Loyalty Platform
 
-### 📸 System Interfaces
-![POS Terminal](assets/caja.png)
-![Manager Dashboard](assets/dashboard.png)
-![VIP Client Portal](assets/cliente.png)
+🇬🇧 English
 
-*Watch the demo video: [Insert Video Link Here]*
-
----
-
-## 🇬🇧 English
-
-**LoyaltyCore** is a high-retention B2B2C SaaS platform designed for independent businesses (barbershops, cafes, retail). 
+LoyaltyCore is a high-retention B2B2C SaaS platform designed for independent businesses (barbershops, cafes, retail). 
 
 Built to provide single-tenant isolation for multi-brand management, it features QR-based point accumulation at the POS, installable PWA VIP cards for clients, real-time auditing, and automated CRM rescue campaigns. It completely bridges the gap between customer retention and seamless daily operations.
 
@@ -35,9 +26,9 @@ Developed by **Mirko Gastón Lauc** — Backend Developer specializing in Python
 
 ---
 
-## 🇪🇸 Español
+🇪🇸 Español
 
-**LoyaltyCore** es una plataforma SaaS B2B2C de alta fidelización diseñada para comercios independientes (peluquerías, cafeterías, tiendas de retail). 
+LoyaltyCore es una plataforma SaaS B2B2C de alta fidelización diseñada para comercios independientes (peluquerías, cafeterías, tiendas de retail). 
 
 Creada para ofrecer gestión aislada por comercio (Multi-Tenant), cuenta con acumulación de puntos vía QR en el mostrador, tarjetas VIP instalables (PWA) para clientes, auditoría en tiempo real y campañas CRM automatizadas. Cierra por completo la brecha entre la retención de clientes y las operaciones diarias sin fricción.
 
