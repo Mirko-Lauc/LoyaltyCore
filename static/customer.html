@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Tarjeta VIP | LoyaltyCore</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Librería para generar el código QR visualmente -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body class="bg-zinc-950 text-zinc-100 min-h-screen flex items-center justify-center p-4 font-sans">
+
+    <div class="w-full max-w-sm bg-gradient-to-br from-zinc-900 to-zinc-950 border border-zinc-800 rounded-3xl p-6 shadow-2xl space-y-6 text-center">
+        
+        <div>
+            <span class="text-[10px] uppercase tracking-widest text-emerald-400 font-bold block mb-1">Tarjeta de Fidelidad Digital</span>
+            <h1 class="text-xl font-extrabold text-white" id="customerName">Mi Perfil VIP</h1>
+        </div>
+
+        <!-- Tarjeta Visual Estilo Passbook / Apple Wallet -->
+        <div class="bg-zinc-900/90 border border-zinc-700/50 rounded-2xl p-5 shadow-inner space-y-4">
+            <div class="flex justify-between items-center text-xs text-zinc-400">
+                <span id="businessTitle">Comercio Asociado</span>
+                <span class="bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full font-bold" id="badgeType">Sello</span>
+            </div>
+            
+            <div class="py-2">
+                <span class="text-xs text-zinc-400 block uppercase tracking-wider">Tu Saldo Actual</span>
+                <span class="text-4xl font-black text-white" id="customerBalance">--</span>
+            </div>
+
+            <!-- Contenedor del Código QR personal -->
+            <div class="bg-white p-3 rounded-xl inline-block shadow-md">
+                <div id="qrcode"></div>
+            </div>
+            <p class="text-[10px] text-zinc-500 font-mono" id="displayUuid">UUID: --</p>
+        </div>
+
+        <div class="space-y-3">
+            <input type="email" id="lookupEmail" placeholder="Ingresa tu email para ver tu tarjeta" 
+                class="w-full px-4 py-3 bg-zinc-900 border border-zinc-800 rounded-xl text-xs text-center focus:outline-none focus:border-emerald-500">
+            <button onclick="loadCustomerWallet()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-bold py-3 rounded-xl text-xs transition shadow-lg shadow-emerald-500/20">
+                Consultar mi Tarjeta
+            </button>
+        </div>
+    </div>
+
+    <script>
+        async function loadCustomerWallet() {
+            const email = document.getElementById('lookupEmail').value.trim();
+            if(!email) {
+                alert("Por favor ingresa tu correo electrónico.");
+                return;
+            }
+
+            try {
+                // Consultamos al backend (asumimos negocio ID 1 para el demo)
+                const res = await fetch(`/customers/`);
+                // Para simplificar el demo en cliente, simulamos la lectura del UUID local o buscamos
+                alert("Para este demo, ingresa tu UUID de cliente generado en el Swagger directamente en la caja, o usa el enlace del local.");
+            } catch(e) {
+                alert("Error consultando saldo.");
+            }
+        }
+    </script>
+</body>
+</html>

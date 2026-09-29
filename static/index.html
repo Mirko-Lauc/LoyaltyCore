@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terminal de Caja | LoyaltyCore</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Librería para escanear QR con la cámara -->
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        :root { --brand-color: #10b981; }
+        .bg-brand { background-color: var(--brand-color); }
+        .text-brand { color: var(--brand-color); }
+        .border-brand { border-color: var(--brand-color); }
+    </style>
+</head>
+<body class="bg-[#09090b] text-zinc-100 min-h-screen flex flex-col items-center justify-center p-4 selection:bg-emerald-500 selection:text-zinc-950">
+
+    <!-- CONTENEDOR PRINCIPAL TIPO APP MÓVIL / TABLET DE MOSTRADOR -->
+    <div class="w-full max-w-md bg-zinc-900/60 backdrop-blur-2xl border border-zinc-800/80 rounded-3xl shadow-2xl overflow-hidden">
+        
+        <!-- HEADER DE MARCA Y ACCESO RÁPIDO AL PANEL -->
+        <div class="p-5 border-b border-zinc-800/80 flex justify-between items-center bg-zinc-900/40">
+            <div class="flex items-center gap-3">
+                <div id="brandAvatar" class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-sm shadow-inner">
+                    LC
+                </div>
+                <div>
+                    <h1 class="text-sm font-bold tracking-tight text-white" id="appTitle">Caja Mostrador</h1>
+                    <p class="text-[11px] text-zinc-400 font-medium" id="activeEmployeeDisplay">Cargando...</p>
+                </div>
+            </div>
+            
+            <a href="/static/dashboard.html" class="text-[11px] bg-zinc-800/80 hover:bg-zinc-700 text-zinc-300 px-3 py-1.5 rounded-xl transition font-semibold border border-zinc-700/50 flex items-center gap-1">
+                <span>🛡️ Panel Dueño</span>
+            </a>
+        </div>
+
+        <div class="p-6">
+            
+            <!-- VISTA 1: LOGIN RÁPIDO DE EMPLEADO (Solo se hace una vez por turno) -->
+            <div id="loginView" class="space-y-4">
+                <div class="space-y-1">
+                    <h2 class="text-base font-bold text-white">Iniciar Turno de Caja</h2>
+                    <p class="text-xs text-zinc-400">Ingresa tus datos para habilitar el terminal.</p>
+                </div>
+                
+                <div class="space-y-3 pt-2">
+                    <div>
+                        <label class="block text-[11px] font-semibold text-zinc-400 uppercase tracking-wider mb-1">ID del Comercio</label>
+                        <input type="number" id="loginBusinessId" value="1" 
+                            class="w-full px-4 py-3 bg-zinc-950 border border-zinc-800 rounded-xl focus:outline-none focus:border-emerald-500 text-xs font-mono transition">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-semibold text-zinc-400 uppercase tracking-wider mb-1">Tu Nombre</label>
+                        <input type="text" id="loginName" placeholder="Ej: Carlos" 
+                            class="w-full px-4 py-3 bg-zinc-950 border border-zinc-800 rounded-xl focus:outline-none focus:border-emerald-500 text-xs transition">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-semibold text-zinc-400 uppercase tracking-wider mb-1">PIN de Seguridad (4 dígitos)</label>
+                        <input type="password" id="loginPin" placeholder="••••" maxlength="4" 
+                            class="w-full px-4 py-3 bg-zinc-950 border border-zinc-800 rounded-xl focus:outline-none focus:border-emerald-500 text-sm tracking-widest text-center font-bold transition">
+                    </div>
+                </div>
+
+                <button onclick="employeeLogin()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-extrabold py-3.5 rounded-xl transition duration-200 text-xs shadow-lg shadow-emerald-500/20 mt-2">
+                    Abrir Caja
+                </button>
+            </div>
+
+            <!-- VISTA 2: CAJA RÁPIDA (OPERACIÓN PURA: ESCANEAR Y SUMAR) -->
+            <div id="cashierView" class="space-y-5 hidden">
+                
+                <!-- Identidad del Empleado activo -->
+                <div class="flex justify-between items-center bg-zinc-950/80 p-3.5 rounded-2xl border border-zinc-800/80">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></div>
+                        <div>
+                            <span class="text-[10px] uppercase tracking-wider text-zinc-500 font-bold block" id="businessNameLabel">Local</span>
+                            <span class="text-xs font-bold text-zinc-200" id="employeeNameLabel">--</span>
+                        </div>
+                    </div>
+                    <button onclick="employeeLogout()" class="text-[11px] bg-zinc-800/80 hover:bg-zinc-700 text-zinc-400 hover:text-white px-3 py-1.5 rounded-xl transition font-medium">
+                        Cerrar Turno
+                    </button>
+                </div>
+
+                <!-- Formulario de Operación Minimalista -->
+                <form id="txForm" class="space-y-4" onsubmit="event.preventDefault();">
+                    
+                    <div>
+                        <div class="flex justify-between items-center mb-1.5">
+                            <label class="block text-[11px] font-semibold text-zinc-400 uppercase tracking-wider">Identidad / QR del Cliente</label>
+                            <button type="button" onclick="toggleScanner()" class="text-[11px] text-emerald-400 hover:underline font-bold flex items-center gap-1">
+                                📷 <span id="scannerBtnText">Escanear QR</span>
+                            </button>
+                        </div>
+                        <input type="text" id="customer_id" required placeholder="UUID o lectura por cámara..." 
+                            class="w-full px-4 py-3 bg-zinc-950 border border-zinc-800 rounded-xl focus:outline-none focus:border-emerald-500 text-xs font-mono tracking-wide transition shadow-inner">
+                    </div>
+
+                    <!-- Lector de Cámara Integrado -->
+                    <div id="readerContainer" class="hidden relative rounded-2xl overflow-hidden border border-zinc-800 bg-black p-2">
+                        <div id="reader" class="w-full rounded-xl overflow-hidden"></div>
+                        <button type="button" onclick="toggleScanner()" class="mt-2 w-full bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-xs py-2 rounded-xl font-medium">
+                            Apagar Cámara
+                        </button>
+                    </div>
+
+                    <!-- Monto o unidades (dinámico según el negocio) -->
+                    <div id="amountFieldContainer">
+                        <label class="block text-[11px] font-semibold text-zinc-400 uppercase tracking-wider mb-1.5" id="amountLabel">Monto del Consumo</label>
+                        <input type="number" step="any" id="amount_or_units" value="1.0" 
+                            class="w-full px-4 py-3 bg-zinc-950 border border-zinc-800 rounded-xl focus:outline-none focus:border-emerald-500 text-sm font-bold text-white transition shadow-inner">
+                    </div>
+
+                    <!-- Botones de Acción Gigantes para Mostrador -->
+                    <div class="grid grid-cols-2 gap-3 pt-2">
+                        <button type="button" onclick="submitTransaction('earn')" id="earnBtn" class="bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-extrabold py-3.5 rounded-xl transition duration-200 text-xs shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-1.5">
+                            ✨ Otorgar Sello
+                        </button>
+                        <button type="button" onclick="submitTransaction('redeem')" class="bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-bold py-3.5 rounded-xl transition duration-200 text-xs border border-zinc-700/50 flex items-center justify-center gap-1.5">
+                            🎁 Canjear Premio
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Caja de Mensajes de Éxito / Error -->
+            <div id="resultBox" class="mt-4 p-4 rounded-2xl hidden text-xs transition-all shadow-md"></div>
+        </div>
+    </div>
+
+    <script>
+        let html5QrCode = null;
+        let isScannerOpen = false;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            checkSession();
+        });
+
+        function toggleScanner() {
+            const container = document.getElementById('readerContainer');
+            const btnText = document.getElementById('scannerBtnText');
+
+            if (!isScannerOpen) {
+                container.classList.remove('hidden');
+                btnText.innerText = "Apagar";
+                isScannerOpen = true;
+
+                html5QrCode = new Html5Qrcode("reader");
+                html5QrCode.start(
+                    { facingMode: "environment" },
+                    { fps: 10, qrbox: { width: 200, height: 200 } },
+                    (decodedText) => {
+                        document.getElementById('customer_id').value = decodedText;
+                        toggleScanner();
+                    },
+                    (errorMessage) => {}
+                ).catch(err => {
+                    alert("No se pudo iniciar la cámara.");
+                    container.classList.add('hidden');
+                    isScannerOpen = false;
+                });
+            } else {
+                if (html5QrCode) {
+                    html5QrCode.stop().then(() => {
+                        container.classList.add('hidden');
+                        btnText.innerText = "Escanear QR";
+                        isScannerOpen = false;
+                    }).catch(err => {});
+                } else {
+                    container.classList.add('hidden');
+                    btnText.innerText = "Escanear QR";
+                    isScannerOpen = false;
+                }
+            }
+        }
+
+        function applyBranding(businessName, loyaltyType) {
+            document.getElementById('appTitle').innerText = businessName;
+            document.getElementById('businessNameLabel').innerText = businessName;
+            
+            const initials = businessName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+            document.getElementById('brandAvatar').innerText = initials;
+
+            if (loyaltyType === 'stamps') {
+                document.getElementById('earnBtn').innerText = '✨ Otorgar Sello';
+                document.getElementById('amountLabel').innerText = 'Visita (1 Sello fijo)';
+                document.getElementById('amount_or_units').value = '1';
+                document.getElementById('amountFieldContainer').style.display = 'none';
+            } else {
+                document.getElementById('earnBtn').innerText = '✨ Sumar Puntos';
+                document.getElementById('amountLabel').innerText = 'Monto del Consumo ($)';
+                document.getElementById('amountFieldContainer').style.display = 'block';
+            }
+        }
+
+        function checkSession() {
+            const empId = localStorage.getItem('demo_emp_id');
+            const empName = localStorage.getItem('demo_emp_name');
+            const bizName = localStorage.getItem('demo_biz_name');
+            const loyaltyType = localStorage.getItem('demo_loyalty_type');
+
+            if (empId && empName) {
+                document.getElementById('loginView').classList.add('hidden');
+                document.getElementById('cashierView').classList.remove('hidden');
+                document.getElementById('employeeNameLabel').innerText = `Atiende: ${empName}`;
+                document.getElementById('activeEmployeeDisplay').innerText = `Operando como ${empName}`;
+                applyBranding(bizName, loyaltyType);
+            } else {
+                document.getElementById('loginView').classList.remove('hidden');
+                document.getElementById('cashierView').classList.add('hidden');
+            }
+        }
+
+        async function employeeLogin() {
+            const business_id = parseInt(document.getElementById('loginBusinessId').value);
+            const name = document.getElementById('loginName').value.trim();
+            const pin_hash = document.getElementById('loginPin').value.trim();
+            const resultBox = document.getElementById('resultBox');
+
+            if (!name || !pin_hash || !business_id) {
+                alert("Completa todos los campos para iniciar turno.");
+                return;
+            }
+
+            try {
+                const response = await fetch('/employee-login/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ business_id, name, pin_hash })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem('demo_emp_id', data.employee_id);
+                    localStorage.setItem('demo_emp_name', data.name);
+                    localStorage.setItem('demo_biz_name', data.business_name);
+                    localStorage.setItem('demo_loyalty_type', data.loyalty_type);
+
+                    resultBox.classList.add('hidden');
+                    document.getElementById('loginPin').value = '';
+                    checkSession();
+                } else {
+                    alert(`Error de acceso: ${data.detail}`);
+                }
+            } catch (error) {
+                alert("Error de conexión con el servidor.");
+            }
+        }
+
+        function employeeLogout() {
+            if(isScannerOpen) toggleScanner();
+            localStorage.clear();
+            location.reload();
+        }
+
+        async function submitTransaction(action) {
+            const customer_id = document.getElementById('customer_id').value.trim();
+            const employee_id = parseInt(localStorage.getItem('demo_emp_id'));
+            const employee_pin = prompt("🔐 Ingresa tu PIN de 4 dígitos para confirmar la operación:");
+            const loyaltyType = localStorage.getItem('demo_loyalty_type');
+            
+            let amount_or_units = 1.0;
+            if (loyaltyType === 'points') {
+                amount_or_units = parseFloat(document.getElementById('amount_or_units').value) || 1.0;
+            }
+
+            const resultBox = document.getElementById('resultBox');
+
+            if (!employee_pin) return;
+            if (!customer_id) {
+                alert("Ingresa o escanea el código del cliente.");
+                return;
+            }
+
+            let endpoint = '/transactions/earn';
+            let payload = { customer_id, employee_id, employee_pin, amount_or_units };
+
+            if (action === 'redeem') {
+                endpoint = '/transactions/redeem';
+                const units = prompt(loyaltyType === 'stamps' ? "¿Cuántos sellos deseas canjear?" : "¿Cuántos puntos deseas canjear?", "5");
+                if (!units) return;
+                payload = { customer_id, employee_id, employee_pin, units_to_redeem: parseFloat(units) };
+            }
+
+            try {
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+
+                resultBox.classList.remove('hidden');
+                if (response.ok) {
+                    resultBox.className = "mt-4 p-4 rounded-2xl bg-emerald-950/90 border border-emerald-800 text-emerald-200 text-xs font-medium";
+                    resultBox.innerHTML = `<strong>✓ ¡Operación Exitosa!</strong><br>${data.message}<br>Nuevo Saldo del Cliente: <b class="text-sm font-black text-white">${data.new_balance || data.remaining_balance}</b>`;
+                    document.getElementById('customer_id').value = '';
+                } else {
+                    resultBox.className = "mt-4 p-4 rounded-2xl bg-rose-950/90 border border-rose-800 text-rose-200 text-xs font-medium";
+                    resultBox.innerHTML = `<strong>✕ Operación Rechazada:</strong> ${data.detail || "Error procesando."}`;
+                }
+            } catch (error) {
+                resultBox.classList.remove('hidden');
+                resultBox.className = "mt-4 p-4 rounded-2xl bg-rose-950/90 border border-rose-800 text-rose-200 text-xs font-medium";
+                resultBox.innerHTML = `<strong>Error de red con el servidor.</strong>`;
+            }
+        }
+    </script>
+</body>
+</html>

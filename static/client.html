@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de Cliente | LoyaltyCore</title>
+    <!-- Configuración PWA -->
+    <link rel="manifest" href="/static/manifest.json">
+    <meta name="theme-color" content="#09090b">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-[#09090b] text-zinc-100 min-h-screen flex flex-col items-center justify-center p-4 selection:bg-emerald-500 selection:text-zinc-950">
+
+    <div class="w-full max-w-md bg-zinc-900/60 backdrop-blur-2xl border border-zinc-800/80 rounded-3xl shadow-2xl overflow-hidden">
+        
+        <!-- HEADER -->
+        <div class="p-6 border-b border-zinc-800/80 text-center bg-zinc-900/40">
+            <span class="text-[10px] uppercase tracking-widest text-emerald-400 font-bold block mb-1">Experiencia Exclusiva VIP</span>
+            <h1 class="text-xl font-black text-white" id="businessName">Peluquería Estilo VIP</h1>
+            <span id="badgeType" class="inline-block mt-2 px-3 py-1 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Sistema de Sellos</span>
+        </div>
+
+        <div class="p-6 space-y-6">
+            
+            <!-- VISTA 1: AUTENTICACIÓN -->
+            <div id="authContainer" class="space-y-5">
+                
+                <div class="grid grid-cols-2 bg-zinc-950 p-1 rounded-2xl border border-zinc-800">
+                    <button onclick="switchTab('login')" id="tabLogin" class="py-2.5 rounded-xl text-xs font-bold transition bg-zinc-800 text-white shadow">Iniciar Sesión</button>
+                    <button onclick="switchTab('register')" id="tabRegister" class="py-2.5 rounded-xl text-xs font-bold transition text-zinc-400 hover:text-white">Crear Cuenta</button>
+                </div>
+
+                <!-- Formulario Login -->
+                <div id="formLogin" class="space-y-4 pt-2">
+                    <div class="space-y-1">
+                        <label class="block text-[11px] font-semibold text-zinc-400 uppercase tracking-wider">Correo Electrónico</label>
+                        <input type="email" id="loginEmail" placeholder="tu@correo.com" 
+                            class="w-full px-4 py-3 bg-zinc-950 border border-zinc-800 rounded-xl text-xs focus:outline-none focus:border-emerald-500 text-white font-medium transition">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="block text-[11px] font-semibold text-zinc-400 uppercase tracking-wider">Contraseña</label>
+                        <input type="password" id="loginPassword" placeholder="••••••••" 
+                            class="w-full px-4 py-3 bg-zinc-950 border border-zinc-800 rounded-xl text-xs focus:outline-none focus:border-emerald-500 text-white font-medium transition">
+                    </div>
+                    <button onclick="clientLogin()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-extrabold py-3.5 rounded-xl text-xs transition shadow-lg shadow-emerald-500/20 mt-2">
+                        Entrar a mi Cuenta
+                    </button>
+                </div>
+
+                <!-- Formulario Registro -->
+                <div id="formRegister" class="space-y-4 pt-2 hidden">
+                    <div class="space-y-1">
+                        <label class="block text-[11px] font-semibold text-zinc-400 uppercase tracking-wider">Nombre Completo</label>
+                        <input type="text" id="regName" placeholder="Juan Pérez" 
+                            class="w-full px-4 py-3 bg-zinc-950 border border-zinc-800 rounded-xl text-xs focus:outline-none focus:border-emerald-500 text-white font-medium transition">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="block text-[11px] font-semibold text-zinc-400 uppercase tracking-wider">Correo Electrónico</label>
+                        <input type="email" id="regEmail" placeholder="tu@correo.com" 
+                            class="w-full px-4 py-3 bg-zinc-950 border border-zinc-800 rounded-xl text-xs focus:outline-none focus:border-emerald-500 text-white font-medium transition">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="block text-[11px] font-semibold text-zinc-400 uppercase tracking-wider">Crea una Contraseña</label>
+                        <input type="password" id="regPassword" placeholder="••••••••" 
+                            class="w-full px-4 py-3 bg-zinc-950 border border-zinc-800 rounded-xl text-xs focus:outline-none focus:border-emerald-500 text-white font-medium transition">
+                    </div>
+                    <button onclick="clientRegister()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-extrabold py-3.5 rounded-xl text-xs transition shadow-lg shadow-emerald-500/20 mt-2">
+                        Registrarme y Obtener Tarjeta
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- VISTA 2: TARJETA VIP ACTIVA -->
+            <div id="clientPortalView" class="space-y-6 hidden">
+                
+                <div class="flex justify-between items-center bg-zinc-950/80 px-4 py-3 rounded-2xl border border-zinc-800">
+                    <div>
+                        <span class="text-[10px] text-zinc-500 font-bold block uppercase">Bienvenido de nuevo,</span>
+                        <strong class="text-xs text-white" id="clientWelcomeName">--</strong>
+                    </div>
+                    <button onclick="clientLogout()" class="text-[11px] bg-zinc-800 hover:bg-zinc-700 text-zinc-300 px-3 py-1.5 rounded-xl transition font-medium">
+                        Cerrar Sesión
+                    </button>
+                </div>
+
+                <!-- Saldo -->
+                <div class="bg-zinc-950/80 border border-zinc-800/80 rounded-2xl p-6 text-center space-y-1 shadow-inner">
+                    <span class="text-[11px] text-zinc-400 font-semibold uppercase tracking-wider block">Tu Saldo Disponible</span>
+                    <div class="text-5xl font-black text-white tracking-tight" id="clientBalance">0</div>
+                    <span class="text-xs text-zinc-500 font-medium block" id="balanceUnitLabel">Sellos acumulados</span>
+                </div>
+
+                <!-- Código QR Personal -->
+                <div class="bg-zinc-950/80 border border-zinc-800/80 rounded-2xl p-5 text-center space-y-3">
+                    <span class="text-xs font-bold text-zinc-300 block">Muestra este código QR al cajero en el local</span>
+                    <div class="bg-white p-3 rounded-xl inline-block shadow-md">
+                        <div id="qrcode"></div>
+                    </div>
+                    <p class="text-[10px] text-zinc-500 font-mono truncate px-4" id="clientUuidText">ID: --</p>
+                </div>
+
+                <!-- Catálogo de Premios -->
+                <div class="space-y-3">
+                    <h3 class="text-xs font-bold text-zinc-300 uppercase tracking-wider">🎁 Premios que puedes canjear</h3>
+                    <div id="rewardsContainer" class="space-y-2">
+                        <!-- Inyectado por JS -->
+                    </div>
+                </div>
+
+                <!-- Contacto -->
+                <div class="bg-zinc-950/80 border border-zinc-800/80 rounded-2xl p-4 space-y-2.5 text-xs">
+                    <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Información del Comercio</span>
+                    <div class="flex items-center gap-2 text-zinc-300">
+                        <span>📍</span> <span id="localAddress">--</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-zinc-300">
+                        <span>📞</span> <span id="localPhone">--</span>
+                    </div>
+                    <div class="pt-1">
+                        <a id="localInstagram" href="#" target="_blank" class="w-full bg-zinc-800 hover:bg-zinc-700 text-zinc-200 py-2.5 rounded-xl font-semibold flex items-center justify-center gap-2 transition border border-zinc-700/50">
+                            📸 Visitar Instagram del Local
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const BUSINESS_ID = 1;
+
+        // Registro de Service Worker para PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/static/sw.js').catch(err => console.log('SW error:', err));
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedUuid = localStorage.getItem('client_session_uuid_' + BUSINESS_ID);
+            if (savedUuid) {
+                loadPortal(savedUuid);
+            }
+        });
+
+        function switchTab(tab) {
+            const tabLogin = document.getElementById('tabLogin');
+            const tabRegister = document.getElementById('tabRegister');
+            const formLogin = document.getElementById('formLogin');
+            const formRegister = document.getElementById('formRegister');
+
+            if (tab === 'login') {
+                tabLogin.className = "py-2.5 rounded-xl text-xs font-bold transition bg-zinc-800 text-white shadow";
+                tabRegister.className = "py-2.5 rounded-xl text-xs font-bold transition text-zinc-400 hover:text-white";
+                formLogin.classList.remove('hidden');
+                formRegister.classList.add('hidden');
+            } else {
+                tabRegister.className = "py-2.5 rounded-xl text-xs font-bold transition bg-zinc-800 text-white shadow";
+                tabLogin.className = "py-2.5 rounded-xl text-xs font-bold transition text-zinc-400 hover:text-white";
+                formRegister.classList.remove('hidden');
+                formLogin.classList.add('hidden');
+            }
+        }
+
+        async function clientLogin() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+
+            if (!email || !password) {
+                alert("Completa todos los campos.");
+                return;
+            }
+
+            try {
+                const res = await fetch('/client-auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await res.json();
+
+                if (res.ok) {
+                    localStorage.setItem('client_session_uuid_' + BUSINESS_ID, data.customer_id);
+                    loadPortal(data.customer_id);
+                } else {
+                    alert(data.detail || "Error al iniciar sesión.");
+                }
+            } catch (e) {
+                alert("Error de conexión con el servidor.");
+            }
+        }
+
+        async function clientRegister() {
+            const name = document.getElementById('regName').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const password = document.getElementById('regPassword').value.trim();
+
+            if (!email || !password) {
+                alert("El correo y la contraseña son obligatorios.");
+                return;
+            }
+
+            try {
+                const res = await fetch('/client-auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password, name })
+                });
+                const data = await res.json();
+
+                if (res.ok) {
+                    alert("¡Cuenta creada con éxito! Ya puedes iniciar sesión.");
+                    switchTab('login');
+                    document.getElementById('loginEmail').value = email;
+                } else {
+                    alert(data.detail || "Error al registrarse.");
+                }
+            } catch (e) {
+                alert("Error de conexión con el servidor.");
+            }
+        }
+
+        function clientLogout() {
+            localStorage.removeItem('client_session_uuid_' + BUSINESS_ID);
+            location.reload();
+        }
+
+        async function loadPortal(customerId) {
+            try {
+                const res = await fetch(`/client-portal/${BUSINESS_ID}/${customerId}`);
+                const data = await res.json();
+
+                if (res.ok) {
+                    document.getElementById('authContainer').classList.add('hidden');
+                    document.getElementById('clientPortalView').classList.remove('hidden');
+
+                    document.getElementById('businessName').innerText = data.business.name;
+                    document.getElementById('clientWelcomeName').innerText = data.customer.name || data.customer.email;
+                    
+                    const isStamps = data.business.loyalty_type === 'stamps';
+                    document.getElementById('badgeType').innerText = isStamps ? '🎟️ Sistema de Sellos' : '✨ Sistema de Puntos';
+                    document.getElementById('balanceUnitLabel').innerText = isStamps ? 'Sellos acumulados' : 'Puntos acumulados';
+
+                    document.getElementById('clientBalance').innerText = data.balance;
+
+                    document.getElementById('clientUuidText').innerText = `ID: ${data.customer.id}`;
+                    document.getElementById('qrcode').innerHTML = "";
+                    new QRCode(document.getElementById("qrcode"), {
+                        text: data.customer.id,
+                        width: 140,
+                        height: 140,
+                        colorDark: "#000000",
+                        colorLight: "#ffffff",
+                        correctLevel: QRCode.CorrectLevel.H
+                    });
+
+                    document.getElementById('localAddress').innerText = data.business.address;
+                    document.getElementById('localPhone').innerText = data.business.phone_number;
+                    document.getElementById('localInstagram').href = data.business.instagram_url;
+
+                    const rewardsContainer = document.getElementById('rewardsContainer');
+                    if (data.rewards.length === 0) {
+                        rewardsContainer.innerHTML = `<p class="text-[11px] text-zinc-500 italic">Pronto habrá premios disponibles.</p>`;
+                    } else {
+                        let html = '';
+                        data.rewards.forEach(r => {
+                            const canRedeem = data.balance >= r.cost_units;
+                            html += `
+                                <div class="flex justify-between items-center bg-zinc-950 p-3 rounded-xl border border-zinc-800">
+                                    <div>
+                                        <strong class="text-white block text-xs">${r.title}</strong>
+                                        <span class="text-[10px] text-zinc-400">Costo: ${r.cost_units} ${isStamps ? 'sellos' : 'puntos'}</span>
+                                    </div>
+                                    <span class="px-2.5 py-1 rounded-lg text-[10px] font-bold ${canRedeem ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-zinc-800 text-zinc-400'}">
+                                        ${canRedeem ? '¡Disponible!' : 'Faltan unidades'}
+                                    </span>
+                                </div>
+                            `;
+                        });
+                        rewardsContainer.innerHTML = html;
+                    }
+                } else {
+                    clientLogout();
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+    </script>
+</body>
+</html>
