@@ -1,3 +1,8 @@
+<div align="center">
+  <img src="./assets/caja.png" alt="POS Terminal" width="30%">
+  <img src="./assets/dashboard.png" alt="Manager Dashboard" width="30%">
+  <img src="./assets/cliente.png" alt="VIP Client Portal" width="30%">
+</div>
 # LoyaltyCore - B2B2C Multi-Tenant Loyalty Platform
 
 🇬🇧 English
