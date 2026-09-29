@@ -2,11 +2,9 @@
 
 ### 📸 System Interfaces / Interfaces del Sistema
 
-
 | 🏪 POS Terminal (Cashier) | 📊 Manager Dashboard (Owner) | 📱 VIP Client Portal (PWA) |
 |:---:|:---:|:---:|
-| <img src="assets/caja.png" width="300"/> | <img src="assets/dashboard.png" width="300"/> | <img src="assets/cliente.png" width="300"/> |
-
+| <img src="https://raw.githubusercontent.com/Mirko-Lauc/LoyaltyCore/main/assets/caja.png" width="300"/> | <img src="https://raw.githubusercontent.com/Mirko-Lauc/LoyaltyCore/main/assets/dashboard.png" width="300"/> | <img src="https://raw.githubusercontent.com/Mirko-Lauc/LoyaltyCore/main/assets/cliente.png" width="300"/> |
 *Watch the demo video: [Insert Video Link Here]*
 
 ---
