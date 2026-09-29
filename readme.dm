@@ -1,10 +1,10 @@
 # ⚡ LoyaltyCore - B2B2C Multi-Tenant Loyalty Platform
 
-### 📸 System Interfaces / Interfaces del Sistema
+### 📸 System Interfaces
+![POS Terminal](assets/caja.png)
+![Manager Dashboard](assets/dashboard.png)
+![VIP Client Portal](assets/cliente.png)
 
-| 🏪 POS Terminal (Cashier) | 📊 Manager Dashboard (Owner) | 📱 VIP Client Portal (PWA) |
-|:---:|:---:|:---:|
-| <img src="https://raw.githubusercontent.com/Mirko-Lauc/LoyaltyCore/main/assets/caja.png" width="300"/> | <img src="https://raw.githubusercontent.com/Mirko-Lauc/LoyaltyCore/main/assets/dashboard.png" width="300"/> | <img src="https://raw.githubusercontent.com/Mirko-Lauc/LoyaltyCore/main/assets/cliente.png" width="300"/> |
 *Watch the demo video: [Insert Video Link Here]*
 
 ---
@@ -25,9 +25,9 @@ Built to provide single-tenant isolation for multi-brand management, it features
 - **Dockerized Execution:** Fully containerized with Docker Compose for instant, reliable deployment across any environment.
 
 ### Tech Stack
-- **Backend:** Python 3.12+, FastAPI, SQLAlchemy (Async/Greenlet), asyncpg, Pydantic
+- **Backend:** Python 3.12+, FastAPI, SQLAlchemy (Async), asyncpg, Pydantic
 - **Database:** PostgreSQL (Hosted on Neon)
-- **Frontend:** HTML5, Tailwind CSS, Vanilla JS, PWA (Service Workers), QRCode.js
+- **Frontend:** HTML5, Tailwind CSS, Vanilla JS, PWA (Service Workers)
 - **Infrastructure:** Docker & Docker Compose
 
 ### About the Author
@@ -51,9 +51,9 @@ Creada para ofrecer gestión aislada por comercio (Multi-Tenant), cuenta con acu
 - **Ejecución con Docker:** Completamente containerizado con Docker Compose para un despliegue instantáneo en cualquier entorno.
 
 ### Tecnologías Utilizadas
-- **Backend:** Python 3.12+, FastAPI, SQLAlchemy (Async/Greenlet), asyncpg, Pydantic
+- **Backend:** Python 3.12+, FastAPI, SQLAlchemy (Async), asyncpg, Pydantic
 - **Base de Datos:** PostgreSQL (Alojado en Neon)
-- **Frontend:** HTML5, Tailwind CSS, Vanilla JS, PWA (Service Workers), QRCode.js
+- **Frontend:** HTML5, Tailwind CSS, Vanilla JS, PWA (Service Workers)
 - **Infraestructura:** Docker & Docker Compose
 
 ### Sobre el Autor
