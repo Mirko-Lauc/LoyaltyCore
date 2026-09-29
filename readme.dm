@@ -1,69 +1,51 @@
-<div align="center">
-  <img src="./assets/caja.png" alt="LoyaltyCore Preview" width="100%">
-  <br><br>
-  <a href="#">
-    <img src="https://img.shields.io/badge/Click%20to%20Watch%20Demo%20Video-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="Watch Demo">
-  </a>
-</div>
+# LoyaltyCore - B2B2C Multi-Tenant Loyalty Platform
 
-<hr>
+🇬🇧 English
 
-<h1>LoyaltyCore - B2B2C Multi-Tenant Loyalty Platform</h1>
+LoyaltyCore is a high-retention B2B2C SaaS platform designed for independent businesses (barbershops, cafes, retail). 
 
-<h2>🇬🇧 English</h2>
+Built to provide single-tenant isolation for multi-brand management, it features QR-based point accumulation at the POS, installable PWA VIP cards for clients, real-time auditing, and automated CRM rescue campaigns. It completely bridges the gap between customer retention and seamless daily operations.
 
-<p>LoyaltyCore is a high-retention B2B2C SaaS platform designed for independent businesses (barbershops, cafes, retail).</p>
+### Key Features
+- **Multi-Tenant Isolation:** Strict separation of data, balances, and reward catalogs per business.
+- **QR POS Terminal:** Optical scanning using mobile or web cameras without needing extra hardware.
+- **Anti-Fraud Security:** 4-digit PIN authentication for cashiers with mandatory transaction logs.
+- **Client VIP Card (PWA):** Frictionless portal with email/password login, personal QR generation, and real-time balance tracking.
+- **Manager Dashboard:** Immutable transaction tracking per employee to prevent internal fraud and dynamic reward catalog management.
+- **Automated CRM Rescue:** Detects inactive clients (>14 days) and triggers automated email loyalty campaigns.
+- **Dockerized Execution:** Fully containerized with Docker Compose for instant, reliable deployment across any environment.
 
-<p>Built to provide single-tenant isolation for multi-brand management, it features QR-based point accumulation at the POS, installable PWA VIP cards for clients, real-time auditing, and automated CRM rescue campaigns. It completely bridges the gap between customer retention and seamless daily operations.</p>
+### Tech Stack
+- **Backend:** Python 3.12+, FastAPI, SQLAlchemy (Async), asyncpg, Pydantic
+- **Database:** PostgreSQL (Hosted on Neon)
+- **Frontend:** HTML5, Tailwind CSS, Vanilla JS, PWA (Service Workers)
+- **Infrastructure:** Docker & Docker Compose
 
-<h3>Key Features</h3>
-<ul>
-  <li><strong>Multi-Tenant Isolation:</strong> Strict separation of data, balances, and reward catalogs per business.</li>
-  <li><strong>QR POS Terminal:</strong> Optical scanning using mobile or web cameras without needing extra hardware.</li>
-  <li><strong>Anti-Fraud Security:</strong> 4-digit PIN authentication for cashiers with mandatory transaction logs.</li>
-  <li><strong>Client VIP Card (PWA):</strong> Frictionless portal with email/password login, personal QR generation, and real-time balance tracking.</li>
-  <li><strong>Manager Dashboard:</strong> Immutable transaction tracking per employee to prevent internal fraud and dynamic reward catalog management.</li>
-  <li><strong>Automated CRM Rescue:</strong> Detects inactive clients (>14 days) and triggers automated email loyalty campaigns.</li>
-  <li><strong>Dockerized Execution:</strong> Fully containerized with Docker Compose for instant, reliable deployment across any environment.</li>
-</ul>
+### About the Author
+Developed by **Mirko Gastón Lauc** — Backend Developer specializing in Python, FastAPI, and robust database design. Passionate about building scalable, production-ready web applications that solve real-world operational challenges.
 
-<h3>Tech Stack</h3>
-<ul>
-  <li><strong>Backend:</strong> Python, FastAPI, SQLAlchemy, asyncpg</li>
-  <li><strong>Database:</strong> PostgreSQL (Hosted on Neon)</li>
-  <li><strong>Frontend:</strong> HTML5, Tailwind CSS, Vanilla JS, PWA (Service Workers)</li>
-  <li><strong>Infrastructure:</strong> Docker & Docker Compose</li>
-</ul>
+---
 
-<h3>About the Author</h3>
-<p>Developed by <strong>Mirko Gastón Lauc</strong> — Backend Developer specializing in Python, FastAPI, and robust database design. Passionate about building scalable, production-ready web applications that solve real-world operational challenges.</p>
+🇪🇸 Español
 
-<hr>
+LoyaltyCore es una plataforma SaaS B2B2C de alta fidelización diseñada para comercios independientes (peluquerías, cafeterías, tiendas de retail). 
 
-<h2>🇪🇸 Español</h2>
+Creada para ofrecer gestión aislada por comercio (Multi-Tenant), cuenta con acumulación de puntos vía QR en el mostrador, tarjetas VIP instalables (PWA) para clientes, auditoría en tiempo real y campañas CRM automatizadas. Cierra por completo la brecha entre la retención de clientes y las operaciones diarias sin fricción.
 
-<p>LoyaltyCore es una plataforma SaaS B2B2C de alta fidelización diseñada para comercios independientes (peluquerías, cafeterías, tiendas de retail).</p>
+### Características Principales
+- **Aislamiento Multi-Tenant:** Separación estricta de datos, saldos y catálogos de premios por cada comercio.
+- **Terminal POS con Lector QR:** Escaneo óptico desde la cámara móvil o web sin hardware adicional.
+- **Seguridad Antifraude:** Autenticación por PIN de 4 dígitos para cajeros con registro obligatorio de transacciones.
+- **Tarjeta VIP del Cliente (PWA):** Portal instalable con login, generación de código QR personal y seguimiento de saldo en vivo.
+- **Panel Gerencial:** Seguimiento inmutable de operaciones por empleado para prevenir fraudes internos y gestión dinámica de premios.
+- **Rescate CRM Automático:** Detecta clientes inactivos (>14 días) y dispara campañas de fidelización automáticas por correo.
+- **Ejecución con Docker:** Completamente containerizado con Docker Compose para un despliegue instantáneo en cualquier entorno.
 
-<p>Creada para ofrecer gestión aislada por comercio (Multi-Tenant), cuenta con acumulación de puntos vía QR en el mostrador, tarjetas VIP instalables (PWA) para clientes, auditoría en tiempo real y campañas CRM automatizadas. Cierra por completo la brecha entre la retención de clientes y las operaciones diarias sin fricción.</p>
+### Tecnologías Utilizadas
+- **Backend:** Python 3.12+, FastAPI, SQLAlchemy (Async), asyncpg, Pydantic
+- **Base de Datos:** PostgreSQL (Alojado en Neon)
+- **Frontend:** HTML5, Tailwind CSS, Vanilla JS, PWA (Service Workers)
+- **Infraestructura:** Docker & Docker Compose
 
-<h3>Características Principales</h3>
-<ul>
-  <li><strong>Aislamiento Multi-Tenant:</strong> Separación estricta de datos, saldos y catálogos de premios por cada comercio.</li>
-  <li><strong>Terminal POS con Lector QR:</strong> Escaneo óptico desde la cámara móvil o web sin hardware adicional.</li>
-  <li><strong>Seguridad Antifraude:</strong> Autenticación por PIN de 4 dígitos para cajeros con registro obligatorio de transacciones.</li>
-  <li><strong>Tarjeta VIP del Cliente (PWA):</strong> Portal instalable con login, generación de código QR personal y seguimiento de saldo en vivo.</li>
-  <li><strong>Panel Gerencial:</strong> Seguimiento inmutable de operaciones por empleado para prevenir fraudes internos y gestión dinámica de premios.</li>
-  <li><strong>Rescate CRM Automático:</strong> Detecta clientes inactivos (>14 días) y dispara campañas de fidelización automáticas por correo.</li>
-  <li><strong>Ejecución con Docker:</strong> Completamente containerizado con Docker Compose para un despliegue instantáneo en cualquier entorno.</li>
-</ul>
-
-<h3>Tecnologías Utilizadas</h3>
-<ul>
-  <li><strong>Backend:</strong> Python, FastAPI, SQLAlchemy, asyncpg</li>
-  <li><strong>Database:</strong> PostgreSQL (Alojado en Neon)</li>
-  <li><strong>Frontend:</strong> HTML5, Tailwind CSS, Vanilla JS, PWA (Service Workers)</li>
-  <li><strong>Infraestructura:</strong> Docker & Docker Compose</li>
-</ul>
-
-<h3>Sobre el Autor</h3>
-<p>Desarrollado por <strong>Mirko Gastón Lauc</strong> — Desarrollador Backend especializado en Python, FastAPI y diseño robusto de bases de datos. Apasionado por construir aplicaciones web escalables y listas para producción que resuelven desafíos operativos del mundo real.</p>
+### Sobre el Autor
+Desarrollado por **Mirko Gastón Lauc** — Desarrollador Backend especializado en Python, FastAPI y diseño robusto de bases de datos. Apasionado por construir aplicaciones web escalables y listas para producción que resuelven desafíos operativos del mundo real.
