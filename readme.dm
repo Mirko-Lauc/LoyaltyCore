@@ -1,11 +1,15 @@
-# ⚡ LoyaltyCore - B2B2C Multi-Tenant Loyalty Platform
-
-### 📸 System Interfaces
-*(Deja este espacio vacío por ahora)*
-
-*Watch the demo video: [Insert Video Link Here]*
+<div align="center">
+  <img src="./assets/caja.png" alt="POS Terminal" width="30%">
+  <img src="./assets/dashboard.png" alt="Manager Dashboard" width="30%">
+  <img src="./assets/cliente.png" alt="VIP Client Portal" width="30%">
+  <br><br>
+  <a href="#">
+    <img src="https://img.shields.io/badge/Click%20to%20Watch%20Demo%20Video-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="Watch Demo">
+  </a>
+</div>
 
 ---
+# ⚡ LoyaltyCore - B2B2C Multi-Tenant Loyalty Platform
 
 ## 🇬🇧 English
 
