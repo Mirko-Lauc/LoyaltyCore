@@ -1,9 +1,9 @@
 # LoyaltyCore - B2B2C Multi-Tenant Loyalty Platform
 
 ### 📸 System Interfaces & Demos
-- [Ver captura del POS Terminal](./assets/caja.png)
-- [Ver captura del Manager Dashboard](./assets/dashboard.png)
-- [Ver captura del VIP Client Portal](./assets/cliente.png)
+- [Ver captura del POS Terminal](https://github.com/Mirko-Lauc/LoyaltyCore/blob/main/assets/caja.png)
+- [Ver captura del Manager Dashboard](https://github.com/Mirko-Lauc/LoyaltyCore/blob/main/assets/dashboard.png)
+- [Ver captura del VIP Client Portal](https://github.com/Mirko-Lauc/LoyaltyCore/blob/main/assets/cliente.png)
 
 ---
 
